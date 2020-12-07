@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2020 Birger Schacht
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: 'Debian Build'
+description: 'Build packages on Debian'
+inputs:
+  codename:
+    description: The codename of the Debian distribution
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - run: ${{ github.action_path }}/build.sh ${{ inputs.codename }}
+      shell: bash
