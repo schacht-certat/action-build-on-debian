@@ -51,13 +51,13 @@ build () {
 	# install build dependencies in the container
 	BR="buildah run -v ${PARENT}:${PARENT}"
 	${BR} "${CONTAINER}" apt-get update -qq
-	${BR} "${CONTAINER}" apt-get install dpkg-dev -y
+	${BR} "${CONTAINER}" apt-get install dpkg-dev lintian -y
 	${BR} "${CONTAINER}" apt-get build-dep -y .
 
 	# this is a hack because intelmq does
 	# not like to be run as root :( :
 	${BR} "${CONTAINER}" chown -R nobody:nogroup "${PARENT}"
-	${BR} --user nobody:nogroup "${CONTAINER}" dpkg-buildpackage -us -uc -b
+	${BR} --user nobody:nogroup "${CONTAINER}" /bin/sh -c 'dpkg-buildpackage -us -uc -b && lintian ../*.changes'
 
 	# create a directory for the artifacts
 	# and copy the relevant files there
