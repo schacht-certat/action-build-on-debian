@@ -64,7 +64,7 @@ build () {
 	mkdir -p "${HOME}/artifacts"
 	for extension in "${ARTIFACTEXTENSIONS[@]}"
 	do
-		find "${PARENT}" -type f -name "*.${extension}" -exec cp '{}' "${HOME}/artifacts/" \;
+		find "${PARENT}" -maxdepth 1 -type f -name "*.${extension}" -exec cp '{}' "${HOME}/artifacts/" \;
 	done
 }
 
